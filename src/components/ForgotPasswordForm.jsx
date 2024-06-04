@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  // const ApiUrl = "https://localhost:5000";
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

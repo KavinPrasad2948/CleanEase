@@ -35,10 +35,10 @@ const SignInForm = () => {
       alert(result.msg);
 
       if (response.ok) {
-        setToken(result.token); // Store the JWT
+        setToken(result.token); 
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userEmail", state.email); // Optionally store the email
-        navigate("/"); // Redirect after successful login
+        localStorage.setItem("userEmail", state.email);
+        navigate("/"); 
       }
 
       setState({

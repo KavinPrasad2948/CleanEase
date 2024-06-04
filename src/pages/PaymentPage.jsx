@@ -45,7 +45,7 @@ const PaymentForm = ({ bookingData }) => {
       setSucceeded(true);
       setProcessing(false);
 
-      // Optionally, update your server about the successful payment
+      
       axios
         .post("/bookings/payment-success", { bookingId: bookingData._id })
         .then((response) => {

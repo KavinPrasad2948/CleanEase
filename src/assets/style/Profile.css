@@ -70,16 +70,16 @@
   
   .profile-img-preview,
   .profile-info .profile-img {
-    width: 150px; /* Adjust the width as needed */
-    height: 150px; /* Adjust the height as needed */
+    width: 150px; 
+    height: 150px; 
     object-fit: cover;
-    border-radius: 50%; /* Makes the image circular */
-    margin-bottom: 20px; /* Space between the image and the rest of the content */
+    border-radius: 50%; 
+    margin-bottom: 20px;
   }
   
   .dropzone {
-    width: 150px; /* Match the width of the image */
-    height: 150px; /* Match the height of the image */
+    width: 150px; 
+    height: 150px; 
     border: 2px dashed #ccc;
     display: flex;
     justify-content: center;

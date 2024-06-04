@@ -14,10 +14,6 @@ lable {
 body {
   height: 100vh;
   width: 100vw;
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
   gap: 30px;
   background-color: rgb(231, 231, 231);
 }
@@ -54,7 +50,6 @@ header {
   height: 60px;
   width: 300px;
   margin: 20px auto;
-  /* box-shadow: 10px 10px 30px rgb(254, 215, 188); */
   border-radius: 50px;
   display: flex;
   justify-content: space-around;
@@ -148,11 +143,11 @@ header {
   justify-content: center;
 }
 
-/* Error message styling */
+
 .error {
   color: red;
   font-size: 12px;
   margin-top: 5px;
 }
 
-/* For Responsiveness of the page */
+

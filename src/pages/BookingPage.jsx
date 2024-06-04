@@ -59,7 +59,7 @@ const BookingPage = () => {
         .then((response) => {
           console.log("Booking created successfully:", response.data);
           navigate("/payment", { state: { bookingData: response.data } });
-          // Optionally, you can update the UI or show a success message
+          
         })
         .catch((error) => {
           console.error("Error creating booking:", error);

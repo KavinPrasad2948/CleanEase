@@ -1,10 +1,10 @@
-// src/redux/actions/authActions.js
+
 
 import axios from 'axios';
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'; // Ensure this is exported
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'; 
 
 export const loginSuccess = (user) => ({
   type: LOGIN_SUCCESS,
@@ -31,6 +31,6 @@ export const loginUser = (credentials) => async (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-  // Perform any necessary logout logic here, such as removing tokens from localStorage
+  
   dispatch(logoutSuccess());
 };

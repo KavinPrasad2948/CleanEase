@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getToken } from "../utils/jwt"; // Import JWT utility
+import { getToken } from "../utils/jwt"; 
 
 const ResetPassword = () => {
   const { token: rawToken } = useParams();
   const Token = rawToken.replace(/^:/, "");
-  console.log("Token:", Token); // Check if the token is correctly extracted
+  console.log("Token:", Token); 
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,14 +25,14 @@ const ResetPassword = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`, // Include the JWT in the request headers
+            Authorization: `Bearer ${getToken()}`,  
           },
           body: JSON.stringify({ password }),
         }
       );
-      console.log("Request URL:", `https://cleanease-backend.onrender.com/api/auth/reset/${Token}`); // Check the request URL
+      console.log("Request URL:", `https://cleanease-backend.onrender.com/api/auth/reset/${Token}`); 
       const result = await response.json();
-      console.log("Response:", result); // Check the response from the backend
+      console.log("Response:", result); 
       const alertMessage = result.msg;
       console.log(alertMessage);
       if (response.ok) {

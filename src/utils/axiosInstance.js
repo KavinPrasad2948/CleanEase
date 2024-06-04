@@ -5,7 +5,6 @@ const instance = axios.create({
   baseURL: 'https://cleanease-backend.onrender.com/api',
 });
 
-// Add a request interceptor to include the JWT token in the Authorization header
 instance.interceptors.request.use(
   (config) => {
     const token = getToken();
