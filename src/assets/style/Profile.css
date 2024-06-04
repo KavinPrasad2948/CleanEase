@@ -1,0 +1,113 @@
+.profile-page {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .profile-page h1 {
+    margin-top: 10vh;
+  }
+  
+  .profile-info,
+  .profile-form {
+    background: #fff;
+    border-radius: 8px;
+    
+    max-width: 400px;
+    margin: 20px 0 0 20vh;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .profile-info p {
+    margin: 10px 0;
+  }
+  
+  .profile-info button,
+  .profile-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .profile-info button:hover,
+  .profile-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .profile-page {
+    text-align: center;
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-img-preview,
+  .profile-info .profile-img {
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    object-fit: cover;
+    border-radius: 50%; /* Makes the image circular */
+    margin-bottom: 20px; /* Space between the image and the rest of the content */
+  }
+  
+  .dropzone {
+    width: 150px; /* Match the width of the image */
+    height: 150px; /* Match the height of the image */
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .sample-images {
+    margin-top: 20px;
+  }
+  
+  .sample-images-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .sample-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .sample-img:hover {
+    transform: scale(1.1);
+  }
+  

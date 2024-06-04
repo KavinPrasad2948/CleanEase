@@ -1,0 +1,82 @@
+/* Payments.css */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.payment-page {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-page h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.payment-page p {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.payment-page form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payment-page .StripeElement {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.payment-page button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.payment-page button:hover {
+  background-color: #0056b3;
+}
+
+.payment-page .error {
+  color: #dc3545;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.payment-page .success {
+  color: #28a745;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .payment-page {
+    max-width: 600px;
+    padding: 40px;
+  }
+
+  .payment-page button {
+    width: auto;
+  }
+}
