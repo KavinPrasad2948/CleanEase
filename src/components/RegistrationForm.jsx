@@ -9,7 +9,7 @@ const RegistrationForm = () => {
   const handleSubmit = (values, { setSubmitting }) => {
     console.log(values);
     axios
-      .post("https://localhost:5000/api/auth/register", values)
+      .post("https://cleanease-backend.onrender.com/api/auth/register", values)
       .then((response) => {
         console.log("Registration successful:", response.data);
         alert("Registration successful");
