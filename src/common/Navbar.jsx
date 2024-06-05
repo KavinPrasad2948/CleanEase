@@ -3,12 +3,16 @@
   import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
   import NotificationPopup from './NotificationPopup'
   import "../assets/style/Navbar.css";
+  import axios from "../utils/axiosInstance";
+  import { useNavigate } from "react-router-dom";
 
   const CustomNavbar = () => {
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [showNotification, setShowNotification] = useState(false);
     const [notifications, setNotifications] = useState(["Notification 1", "Notification 2"]);
+    const [searchQuery, setSearchQuery] = useState("");
 
 
     useEffect(() => {
@@ -30,6 +34,10 @@
       };
       const toggleNotification = () => {
         setShowNotification(!showNotification);
+      };
+      const handleSearch = async (e) => {
+        e.preventDefault();
+        navigate(`/dashboard?search=${searchQuery}`);
       };
     
     return (
@@ -55,7 +63,7 @@
               </Nav.Link>
               <Nav.Link href="#contact">Contact</Nav.Link>
             </Nav>
-            <form className="navbar-form form-inline">
+            <form className="navbar-form form-inline" >
               <div className="input-group search-box">
                 <input
                   type="text"
@@ -63,7 +71,7 @@
                   className="form-control"
                   placeholder="Search by Name"
                 />
-                <span className="input-group-addon">
+                <span className="input-group-addon" onClick={handleSearch}>
                   <i className="material-icons">&#xE8B6;</i>
                 </span>
               </div>

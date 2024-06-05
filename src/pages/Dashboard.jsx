@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomNavbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { getToken } from "../utils/jwt";
@@ -10,19 +10,24 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    fetchBookings();
-  }, []);
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('search');
+    fetchBookings(query);
+  }, [location.search]);
 
-  const fetchBookings = () => {
+  const fetchBookings = (query) => {
     const token = getToken();
     if (!token) {
       console.error("JWT token not found.");
       return;
     }
 
-    fetch("https://cleanease-backend.onrender.com/api/bookings", {
+    const url = query ? `https://cleanease-backend.onrender.com/api/bookings/search?query=${query}` : "https://cleanease-backend.onrender.com/api/bookings";
+
+    fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
