@@ -22,7 +22,7 @@ const Dashboard = () => {
       return;
     }
 
-    fetch("https://cleanease-backend.onrender.com/api/bookings", {
+    fetch("http://localhost:5000/api/bookings", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,7 +55,7 @@ const Dashboard = () => {
       return;
     }
 
-    fetch(`https://cleanease-backend.onrender.com/api/bookings/${id}`, {
+    fetch(`http://localhost:5000/api/bookings/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ const Dashboard = () => {
         if (!response.ok) {
           throw new Error("Failed to delete booking");
         }
-        // Remove the deleted booking from the state
+        
         setBookings((prevBookings) =>
           prevBookings.filter((booking) => booking._id !== id)
         );
@@ -113,4 +113,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

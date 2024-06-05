@@ -9,7 +9,7 @@ const SignInForm = () => {
   });
 
   const navigate = useNavigate();
-  const ApiUrl = "https://cleanease-backend.onrender.com/api/auth/login"; // Use HTTP for local development
+  const ApiUrl = "http://localhost:5000/api/auth/login"; // Ensure correct protocol
 
   const handleChange = (evt) => {
     const value = evt.target.value;
@@ -29,16 +29,22 @@ const SignInForm = () => {
         },
         body: JSON.stringify(state),
       });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.msg || 'Login failed');
+      }
+
       const result = await response.json();
       console.log(result);
 
       alert(result.msg);
 
-      if (response.ok) {
-        setToken(result.token); 
+      if (result.token) {
+        setToken(result.token);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userEmail", state.email);
-        navigate("/"); 
+        navigate("/");
       }
 
       setState({

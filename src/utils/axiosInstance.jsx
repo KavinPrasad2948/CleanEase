@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './jwt';
 
 const instance = axios.create({
-  baseURL: 'https://cleanease-backend.onrender.com/api',
+  baseURL: 'https://localhost:5000/api',
 });
 
 instance.interceptors.request.use(

@@ -4,7 +4,7 @@ import axios from "../utils/axiosInstance";
 import { NavDropdown } from "react-bootstrap";
 import CustomNavbar from "../common/Navbar";
 import Footer from "../common/Footer";
-import   '../assets/style/Booking.css'
+import '../assets/style/Booking.css';
 
 const BookingPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -27,7 +27,7 @@ const BookingPage = () => {
 
   const handleServiceSelection = (service) => {
     setSelectedService(service);
-    // Update service price based on the selected service type
+
     switch (service) {
       case "Commercial Cleaning":
         setServicePrice(600);
@@ -48,21 +48,24 @@ const BookingPage = () => {
       const bookingData = {
         service: selectedService,
         date: selectedDate,
-        price: servicePrice, 
+        price: servicePrice,
         userEmail: userEmail,
       };
-      console.log(bookingData);
 
       // Send POST request to create new booking
-      axios
-        .post("https://cleanease-backend.onrender.com/api/bookings", bookingData)
+      axios.post("http://localhost:5000/api/bookings", bookingData)  // Ensure the URL is http and matches your backend URL
         .then((response) => {
           console.log("Booking created successfully:", response.data);
           navigate("/payment", { state: { bookingData: response.data } });
-          
         })
         .catch((error) => {
-          console.error("Error creating booking:", error);
+          if (error.response) {
+            console.error("Server Error:", error.response.status, error.response.data);
+          } else if (error.request) {
+            console.error("Network Error:", error.request);
+          } else {
+            console.error("Error:", error.message);
+          }
         });
     } else {
       console.error("Please select a date and service before submitting.");

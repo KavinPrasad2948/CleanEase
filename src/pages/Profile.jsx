@@ -16,7 +16,7 @@ const Profile = () => {
     // Fetch user data from backend and set it to formData
     const fetchUserData = async () => {
       try {
-        const response = await fetch("https://cleanease-backend.onrender.com/api/profile", {
+        const response = await fetch("https://localhost:5000/api/profile", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://cleanease-backend.onrender.com/api/profile", {
+      const response = await fetch("https://localhost:5000/api/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
