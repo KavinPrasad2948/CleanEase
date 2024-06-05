@@ -22,19 +22,19 @@ const Home = () => {
           <div className="service-container">
             <div className="service-card">
               <h3>Commercial Cleaning</h3>
-              <img src="/public/img1.webp" alt="Commercial Cleaning" />
+              <img src="https://thearchitecturedesigns.com/wp-content/uploads/2021/05/clean-your-house-2.jpg" alt="Commercial Cleaning" />
               <p>Professional cleaning for offices and commercial spaces.</p>
               <p className="price">Price: 600 rupees only</p>
             </div>
             <div className="service-card">
               <h3>Professional Cleaning</h3>
-              <img src="/public/img2.jpeg" alt="Professional Cleaning" />
+              <img src="https://www.yellowpages.com.au/wp-content/uploads/2022/02/Yellow-Pages-house-cleaning-prices-list-1024x683.jpg" alt="Professional Cleaning" />
               <p>Expert cleaning services for specialized needs.</p>
               <p className="price">Price: 300 rupees only</p>
             </div>
             <div className="service-card">
               <h3>Carpet Cleaning</h3>
-              <img src="/public/img3.jpeg" alt="Carpet Cleaning" />
+              <img src="https://adorable-home.com/wp-content/uploads/2021/03/Vacuuming-the-floor-1024x683.jpeg" alt="Carpet Cleaning" />
               <p>Deep cleaning for carpets to remove dirt and stains.</p>
               <p className="price">Price: 200 rupees only</p>
             </div>
