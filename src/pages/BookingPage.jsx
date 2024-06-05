@@ -52,8 +52,8 @@ const BookingPage = () => {
         userEmail: userEmail,
       };
 
-      // Send POST request to create new booking
-      axios.post("http://localhost:5000/api/bookings", bookingData)  // Ensure the URL is http and matches your backend URL
+      
+      axios.post("http://localhost:5000/api/bookings", bookingData)  
         .then((response) => {
           console.log("Booking created successfully:", response.data);
           navigate("/payment", { state: { bookingData: response.data } });
