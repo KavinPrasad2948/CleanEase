@@ -53,7 +53,7 @@ const BookingPage = () => {
       };
 
       
-      axios.post("http://localhost:5000/api/bookings", bookingData)  
+      axios.post("https://cleanease-backend.onrender.com/api/bookings", bookingData)  
         .then((response) => {
           console.log("Booking created successfully:", response.data);
           navigate("/payment", { state: { bookingData: response.data } });

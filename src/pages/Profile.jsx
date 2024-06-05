@@ -13,25 +13,28 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    // Fetch user data from backend and set it to formData
     const fetchUserData = async () => {
       try {
-        const response = await fetch("https://localhost:5000/api/profile", {
+        const response = await fetch("https://cleanease-backend.onrender.com/api/profile", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        
-        if (response.status === 401) {
-          throw new Error('Unauthorized');
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('Unauthorized');
+          }
+          throw new Error(`Error: ${response.statusText}`);
         }
-        
+
         const userData = await response.json();
         setFormData(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        alert("Failed to fetch user data. Please try again later.");
       }
     };
 
@@ -46,7 +49,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://localhost:5000/api/profile", {
+      const response = await fetch("https://cleanease-backend.onrender.com/api/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -54,12 +57,13 @@ const Profile = () => {
         },
         body: JSON.stringify(formData),
       });
-      if (response.ok) {
-        setEditing(false);
-        alert("Profile updated successfully!");
-      } else {
-        alert("Failed to update profile. Please try again.");
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
       }
+
+      setEditing(false);
+      alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Please try again.");

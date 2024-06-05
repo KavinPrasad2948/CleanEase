@@ -22,7 +22,7 @@ export const logoutSuccess = () => ({
 
 export const loginUser = (credentials) => async (dispatch) => {
   try {
-    const response = await axios.post('https://localhost:5000/signin', credentials);
+    const response = await axios.post('https://cleanease-backend.onrender.com/signin', credentials);
     const user = response.data;
     dispatch(loginSuccess(user));
   } catch (error) {

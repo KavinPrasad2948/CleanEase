@@ -22,7 +22,7 @@ const Dashboard = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/bookings", {
+    fetch("https://cleanease-backend.onrender.com/api/bookings", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,7 +55,7 @@ const Dashboard = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/api/bookings/${id}`, {
+    fetch(`https://cleanease-backend.onrender.com/api/bookings/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

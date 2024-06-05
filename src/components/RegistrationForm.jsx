@@ -9,7 +9,7 @@ const RegistrationForm = () => {
     const { name, email, password } = values;
     const user = { name, email, password };
 
-    axios.post('http://localhost:5000/api/auth/register', user)
+    axios.post('https://cleanease-backend.onrender.com/api/auth/register', user)
       .then(response => {
         console.log('Registration successful:', response.data);
         localStorage.setItem('isLoggedIn', 'true');

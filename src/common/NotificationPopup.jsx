@@ -8,9 +8,13 @@ const NotificationPopup = ({ show, onHide, notifications }) => {
         <Modal.Title>Notifications</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {notifications.map((notification, index) => (
-          <p key={index}>{notification}</p>
-        ))}
+        {notifications.length > 0 ? (
+          notifications.map((notification, index) => (
+            <p key={index}>{notification}</p>
+          ))
+        ) : (
+          <p>No notifications</p>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
@@ -20,10 +24,11 @@ const NotificationPopup = ({ show, onHide, notifications }) => {
     </Modal>
   );
 };
+
 NotificationPopup.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired,
-    notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
-  };
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default NotificationPopup;

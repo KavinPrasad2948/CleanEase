@@ -20,7 +20,7 @@ const ResetPassword = () => {
     }
     try {
       const response = await fetch(
-        `http://localhost:5000/api/auth/reset/${Token}`,
+        `https://cleanease-backend.onrender.com/api/auth/reset/${Token}`,
         {
           method: "POST",
           headers: {
@@ -36,7 +36,7 @@ const ResetPassword = () => {
       const alertMessage = result.msg;
       console.log(alertMessage);
       if (response.ok) {
-        setMessage("Password updated successfully");
+        alert("Password updated successfully");
         navigate("/");
       } else {
         setMessage(result.message || "Error resetting password");
