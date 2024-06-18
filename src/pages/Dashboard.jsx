@@ -14,70 +14,71 @@ const Dashboard = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const query = searchParams.get('search');
+    const query = searchParams.get('query');
     fetchBookings(query);
   }, [location.search]);
 
-  const fetchBookings = (query) => {
+  const fetchBookings = async (query) => {
     const token = getToken();
     if (!token) {
       console.error("JWT token not found.");
+      setError("User not authenticated");
+      setLoading(false);
       return;
     }
 
     const url = query ? `https://cleanease-backend.onrender.com/api/bookings/search?query=${query}` : "https://cleanease-backend.onrender.com/api/bookings";
 
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch bookings");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBookings(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-        console.error("Error fetching bookings:", error);
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch bookings");
+      }
+
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      setError(error.message);
+      console.error("Error fetching bookings:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handlenavigate = () => {
+  const handleNavigate = () => {
     navigate("/Booking");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const token = getToken();
     if (!token) {
       console.error("JWT token not found.");
       return;
     }
 
-    fetch(`https://cleanease-backend.onrender.com/api/bookings/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to delete booking");
-        }
-        
-        setBookings((prevBookings) =>
-          prevBookings.filter((booking) => booking._id !== id)
-        );
-      })
-      .catch((error) => {
-        console.error("Error deleting booking:", error);
+    try {
+      const response = await fetch(`https://cleanease-backend.onrender.com/api/bookings/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete booking");
+      }
+
+      setBookings((prevBookings) =>
+        prevBookings.filter((booking) => booking._id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting booking:", error);
+    }
   };
 
   if (loading) {
@@ -96,19 +97,23 @@ const Dashboard = () => {
         <div className="bookings-section">
           <h2>Bookings</h2>
           <div className="add-booking">
-            <button onClick={handlenavigate}>Add Booking</button>
+            <button onClick={handleNavigate}>Add Booking</button>
           </div>
           <div className="bookings-container">
-            {bookings.map((booking) => (
-              <div className="booking-card" key={booking._id}>
-                <h3>{booking.service}</h3>
-                <p>Service: {booking.service}</p>
-                <p>Status: {booking.status}</p>
-                <p>Date: {new Date(booking.date).toLocaleDateString()}</p>
-                <p>Time: {new Date(booking.date).toLocaleTimeString()}</p>
-                <button onClick={() => handleDelete(booking._id)}>Delete</button>
-              </div>
-            ))}
+            {bookings.length > 0 ? (
+              bookings.map((booking) => (
+                <div className="booking-card" key={booking._id}>
+                  <h3>{booking.service}</h3>
+                  <p>Service: {booking.service}</p>
+                  <p>Status: {booking.status}</p>
+                  <p>Date: {new Date(booking.date).toLocaleDateString()}</p>
+                  <p>Time: {new Date(booking.date).toLocaleTimeString()}</p>
+                  <button onClick={() => handleDelete(booking._id)}>Delete</button>
+                </div>
+              ))
+            ) : (
+              <p>No bookings found</p>
+            )}
           </div>
         </div>
       </div>

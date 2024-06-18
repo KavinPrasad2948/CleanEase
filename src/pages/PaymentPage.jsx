@@ -6,14 +6,14 @@ import {
   Elements,
   CardElement,
   useStripe,
-  useElements,
+  useElements
 } from "@stripe/react-stripe-js";
 import CustomNavbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import axios from "../utils/axiosInstance";
 import "../assets/style/Payments.css";
 
-const stripePromise = loadStripe("kavin_prasad_stripe_key");
+const stripePromise = loadStripe("your_stripe_public_key");
 
 const PaymentForm = ({ bookingData }) => {
   const stripe = useStripe();
@@ -26,34 +26,47 @@ const PaymentForm = ({ bookingData }) => {
     event.preventDefault();
     setProcessing(true);
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(
-      "client-secret",
-      {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            email: bookingData.userEmail,
-          },
-        },
-      }
-    );
+    try {
+      // Create a payment intent on your server and get client secret
+      const response = await axios.post("/create-payment-intent", {
+        bookingId: bookingData._id,
+      });
+      const { clientSecret } = response.data;
 
-    if (error) {
+      // Confirm card payment with the client secret
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+            billing_details: {
+              email: bookingData.userEmail,
+            },
+          },
+        }
+      );
+
+      if (error) {
+        setError(`Payment failed: ${error.message}`);
+        setProcessing(false);
+      } else if (paymentIntent.status === "succeeded") {
+        setSucceeded(true);
+        setProcessing(false);
+
+        // Record payment success on your server
+        await axios
+          .post("/bookings/payment-success", { bookingId: bookingData._id })
+          .then((response) => {
+            console.log("Payment success recorded:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error recording payment success:", error);
+          });
+      }
+    } catch (error) {
+      console.error("Error confirming payment:", error.message);
       setError(`Payment failed: ${error.message}`);
       setProcessing(false);
-    } else if (paymentIntent.status === "succeeded") {
-      setSucceeded(true);
-      setProcessing(false);
-
-      
-      axios
-        .post("/bookings/payment-success", { bookingId: bookingData._id })
-        .then((response) => {
-          console.log("Payment success recorded:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error recording payment success:", error);
-        });
     }
   };
 
@@ -63,10 +76,14 @@ const PaymentForm = ({ bookingData }) => {
       <button type="submit" disabled={processing || !stripe || !elements}>
         {processing ? "Processing..." : "Pay Now"}
       </button>
-      {error && <div>{error}</div>}
-      {succeeded && <div>Payment succeeded!</div>}
+      {error && <div className="error-message">{error}</div>}
+      {succeeded && <div className="success-message">Payment succeeded!</div>}
     </form>
   );
+};
+
+PaymentForm.propTypes = {
+  bookingData: PropTypes.object.isRequired,
 };
 
 const PaymentPage = () => {
@@ -96,10 +113,6 @@ const PaymentPage = () => {
       <Footer />
     </div>
   );
-};
-
-PaymentForm.propTypes = {
-  bookingData: PropTypes.object.isRequired,
 };
 
 export default PaymentPage;

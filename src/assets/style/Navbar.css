@@ -78,6 +78,7 @@ body {
   padding: 8px 20px;
   line-height: normal;
 }
+
 .navbar .dropdown-menu a:hover,
 .navbar .dropdown-menu a:active {
   color: #333;

@@ -1,70 +1,63 @@
-
+/* Booking.css */
 
 .booking-page {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #f7f9fc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .booking-page h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.5rem;
-    color: #333;
-  }
-  
-  .booking-page .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .booking-page .card p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 15px;
-  }
-  
-  .booking-page .card input[type="date"] {
-    width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.booking-form {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .booking-page {
     padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    color: #333;
   }
-  
-  .booking-page .card .dropdown-menu {
+
+  .booking-form {
+    padding: 15px;
+  }
+
+  .form-control {
+    padding: 8px;
+  }
+
+  .btn {
     width: 100%;
+    padding: 12px;
   }
-  
-  .booking-page .card .dropdown-menu .dropdown-item {
-    color: #333;
-  }
-  
-  .booking-page .card .dropdown-menu .dropdown-item:hover {
-    background-color: #f7f9fc;
-  }
-  
-  .booking-page .card button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-  }
-  
-  .booking-page .card button:hover {
-    background-color: #45a049;
-  }
-  
+}
