@@ -30,9 +30,9 @@ const ResetPassword = () => {
           body: JSON.stringify({ password }),
         }
       );
-      console.log("Request URL:", `https://cleanease-backend.onrender.com/api/auth/reset/${Token}`); 
+      // console.log("Request URL:", `https://cleanease-backend.onrender.com/api/auth/reset/${Token}`); 
       const result = await response.json();
-      console.log("Response:", result); 
+      // console.log("Response:", result); 
       const alertMessage = result.msg;
       console.log(alertMessage);
       if (response.ok) {

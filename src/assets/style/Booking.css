@@ -5,7 +5,9 @@
   margin: 0 auto;
   padding: 20px;
 }
-
+.form-check-input{
+  width: 3%!important;
+}
 .booking-form {
   background: #fff;
   border-radius: 8px;

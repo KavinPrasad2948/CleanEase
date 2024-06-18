@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "../utils/axiosInstance";
-import { NavDropdown } from "react-bootstrap";
 import CustomNavbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import "../assets/style/Booking.css";
 
 const BookingPage = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  const [selectedService, setSelectedService] = useState("");
+  const [selectedService, setSelectedService] = useState([]);
   const [specificRequirements, setSpecificRequirements] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userFullName, setUserFullName] = useState("");
@@ -18,6 +17,10 @@ const BookingPage = () => {
   const [servicePrice, setServicePrice] = useState(0);
   const [numRooms, setNumRooms] = useState(1);
   const [numBathrooms, setNumBathrooms] = useState(1);
+  const [totalSquareFootage, setTotalSquareFootage] = useState(1500);
+  const [typeOfResidence, setTypeOfResidence] = useState("Apartment");
+  const [typeOfFlooring, setTypeOfFlooring] = useState("Carpet");
+  const [paymentMethod, setPaymentMethod] = useState("Credit Card");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -32,6 +35,20 @@ const BookingPage = () => {
     if (storedPhoneNumber) setUserPhoneNumber(storedPhoneNumber);
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("https://cleanease-backend.onrender.com/api/profile")
+      .then((response) => {
+        setUserEmail(response.data.email);
+        setUserFullName(response.data.name);
+        setUserAddress(response.data.address);
+        setUserPhoneNumber(response.data.phone);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  }, []);
+
   const handleDateSelection = (date) => {
     setSelectedDate(date);
   };
@@ -41,43 +58,55 @@ const BookingPage = () => {
   };
 
   const handleServiceSelection = (service, price) => {
-    setSelectedService(service);
-    setServicePrice(price);
+    const isServiceSelected = selectedService.includes(service);
+    if (isServiceSelected) {
+      setSelectedService(selectedService.filter((s) => s !== service));
+      setServicePrice(servicePrice - price);
+    } else {
+      setSelectedService([...selectedService, service]);
+      setServicePrice(servicePrice + price);
+    }
   };
-
+ 
   const handleBookingSubmit = () => {
-    if (selectedDate && selectedService && selectedTime) {
+  
+    if (selectedDate && selectedService.length > 0 && selectedTime) {
       const bookingData = {
-        service: selectedService,
+        name: userFullName,
+        userEmail: userEmail,
+        address: userAddress,
+        phoneNumber: userPhoneNumber,
+        totalSquareFootage: totalSquareFootage,
+        typeOfResidence: typeOfResidence,
+        typeOfFlooring: typeOfFlooring,
+        numberOfBedrooms: numRooms,
+        numberOfBathrooms: numBathrooms,
+        service: selectedService[0],
+        paymentMethod: paymentMethod,
         date: selectedDate,
         time: selectedTime,
         specificRequirements: specificRequirements,
         price: servicePrice,
-        userEmail: userEmail,
-        userFullName: userFullName,
-        userAddress: userAddress,
-        userPhoneNumber: userPhoneNumber,
-        numRooms: numRooms,
-        numBathrooms: numBathrooms,
       };
 
+     
+      
+
       axios
-        .post(
-          "https://cleanease-backend.onrender.com/api/bookings",
-          bookingData
-        )
+        .post("https://cleanease-backend.onrender.com/api/bookings", bookingData)
         .then((response) => {
-          console.log("Booking created successfully:", response.data);
+          console.log("Booking created successfully");
           navigate("/payment", { state: { bookingData: response.data } });
         })
         .catch((error) => {
           if (error.response) {
-            setError(
-              `Server Error: ${error.response.status} ${error.response.data}`
-            );
+            console.error("Server Error Response:", error.response);
+            setError(`Server Error: ${error.response.status} ${error.response.data.error}`);
           } else if (error.request) {
+            console.error("Network Error Request:", error.request);
             setError("Network Error: Please check your internet connection.");
           } else {
+            console.error("Error Message:", error.message);
             setError(`Error: ${error.message}`);
           }
         });
@@ -85,17 +114,6 @@ const BookingPage = () => {
       setError("Please complete all required fields before submitting.");
     }
   };
-  axios
-    .get("https://cleanease-backend.onrender.com/api/profile")
-    .then((response) => {
-      setUserEmail(response.data.email);
-      setUserFullName(response.data.name);
-      setUserAddress(response.data.address);
-      setUserPhoneNumber(response.data.phone);
-    })
-    .catch((error) => {
-      console.error("Error fetching user profile:", error);
-    });
 
   const services = [
     { name: "Commercial Cleaning", price: 600 },
@@ -115,7 +133,7 @@ const BookingPage = () => {
   const handlePhoneNumberChange = (e) => {
     setUserPhoneNumber(e.target.value);
   };
-  
+
   return (
     <div>
       <CustomNavbar />
@@ -148,19 +166,22 @@ const BookingPage = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="servicesDropdown">Select Service:</label>
-            <NavDropdown title="Services" id="services-dropdown">
-              {services.map((service) => (
-                <NavDropdown.Item
-                  key={service.name}
-                  onClick={() =>
+            <label htmlFor="servicesCheckbox">Select Service:</label>
+            {services.map((service) => (
+              <div key={service.name} className="form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id={service.name}
+                  onChange={() =>
                     handleServiceSelection(service.name, service.price)
                   }
-                >
+                />
+                <label className="form-check-label" htmlFor={service.name}>
                   {service.name}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
+                </label>
+              </div>
+            ))}
           </div>
 
           <div className="form-group">
@@ -178,38 +199,39 @@ const BookingPage = () => {
             <label htmlFor="userEmail">Email:</label>
             <p>{userEmail}</p>
           </div>
-<div className="form-group">
-          {userAddress ? (
-            <p>Address: {userAddress}</p>
-          ) : (
-            <div>
-            <label htmlFor="userAddress">Address:</label>
-            <input
-              type="text"
-              placeholder="Enter your address"
-              className="form-control"
-              value={userAddress}
-              onChange={handleAddressChange}
-            />
-            </div>
-          )}
+
+          <div className="form-group">
+            {userAddress ? (
+              <p>Address: {userAddress}</p>
+            ) : (
+              <div>
+                <label htmlFor="userAddress">Address:</label>
+                <input
+                  type="text"
+                  placeholder="Enter your address"
+                  className="form-control"
+                  value={userAddress}
+                  onChange={handleAddressChange}
+                />
+              </div>
+            )}
           </div>
 
-<div className="form-group">
-          {userPhoneNumber ? (
-            <p>Phone Number: {userPhoneNumber}</p>
-          ) : (
-            <div>
-               <label htmlFor="userPhoneNumber">PhoneNumber :</label>
-            <input
-              type="text"
-              placeholder="Enter your phone number"
-              className="form-control"
-              value={userPhoneNumber}
-              onChange={handlePhoneNumberChange}
-            />
-            </div>
-          )}
+          <div className="form-group">
+            {userPhoneNumber ? (
+              <p>Phone Number: {userPhoneNumber}</p>
+            ) : (
+              <div>
+                <label htmlFor="userPhoneNumber">Phone Number:</label>
+                <input
+                  type="text"
+                  placeholder="Enter your phone number"
+                  className="form-control"
+                  value={userPhoneNumber}
+                  onChange={handlePhoneNumberChange}
+                />
+              </div>
+            )}
           </div>
 
           <div className="form-group">
@@ -237,6 +259,51 @@ const BookingPage = () => {
               min="1"
               value={numBathrooms}
               onChange={(e) => setNumBathrooms(e.target.value)}
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="totalSquareFootage">Total Square Footage:</label>
+            <input
+              type="number"
+              id="totalSquareFootage"
+              min="1"
+              value={totalSquareFootage}
+              onChange={(e) => setTotalSquareFootage(e.target.value)}
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="typeOfResidence">Type of Residence:</label>
+            <input
+              type="text"
+              id="typeOfResidence"
+              value={typeOfResidence}
+              onChange={(e) => setTypeOfResidence(e.target.value)}
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="typeOfFlooring">Type of Flooring:</label>
+            <input
+              type="text"
+              id="typeOfFlooring"
+              value={typeOfFlooring}
+              onChange={(e) => setTypeOfFlooring(e.target.value)}
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="paymentMethod">Payment Method:</label>
+            <input
+              type="text"
+              id="paymentMethod"
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
               className="form-control"
             />
           </div>

@@ -18,7 +18,7 @@ const Dashboard = () => {
     fetchBookings(query);
   }, [location.search]);
 
-  const fetchBookings = async (query) => {
+  const fetchBookings = async () => {
     const token = getToken();
     if (!token) {
       console.error("JWT token not found.");
@@ -27,7 +27,7 @@ const Dashboard = () => {
       return;
     }
 
-    const url = query ? `https://cleanease-backend.onrender.com/api/bookings/search?query=${query}` : "https://cleanease-backend.onrender.com/api/bookings";
+    const url =  "https://cleanease-backend.onrender.com/api/bookings";
 
     try {
       const response = await fetch(url, {

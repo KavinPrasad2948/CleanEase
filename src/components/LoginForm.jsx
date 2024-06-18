@@ -36,7 +36,7 @@ const SignInForm = () => {
       }
 
       const result = await response.json();
-      console.log(result);
+     
 
       alert(result.msg);
 

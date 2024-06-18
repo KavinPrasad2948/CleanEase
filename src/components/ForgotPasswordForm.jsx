@@ -24,7 +24,7 @@ function ForgotPasswordForm() {
 
       if (result.token) {
         navigate(`/reset/${result.token}`);
-        console.log(result.token);
+       
         // alert(result.msg);
       } else {
         alert(result.msg || "Error sending reset token");
